@@ -27,10 +27,12 @@ class DatabaseSeeder extends Seeder
 
         $badges = Badge::factory()->
             count(10)->
+            sequence(fn ($sequence) => ['title' => $sequence->index . ' Badge Earned '])->
             create();
 
         $achievements = Achievement::factory()->
             count(12)->
+            sequence(fn ($sequence) => ['name' => $sequence->index.' Lesson Watched Achievement ' ])->
             create();
 
     }

@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\AchievementUnlocked;
 use App\Events\LessonWatched;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,7 +29,7 @@ class UserWatchchedLesson
     {
         //
         $user_les = DB::table('lesson_user')->
-            where('user_id',$event->user_id)->exists();
+            where('user_id',$event->user_id)->get();
 
         DB::table('lesson_user')->
         insert([
@@ -36,9 +37,15 @@ class UserWatchchedLesson
             'lesson_id' => $event->lesson_id
         ]);
 
+        if(!$user_les){
+            event(new AchievementUnlocked($event->user_id,2));
+        }
+        if($user_les->count() > 5){
+            event(new AchievementUnlocked($event->user_id,6));
+        }
         return response()->json([
             'status' => 200,
-            'message' => $user_les == false ? 'First Lesson Watched' : 'Lesson Watched'
+            'message' => empty($user_les) ? 'First Lesson Watched' : 'Lesson Watched'
         ]);
 
 

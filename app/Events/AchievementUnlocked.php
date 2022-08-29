@@ -23,9 +23,9 @@ class AchievementUnlocked
      * @return void
      */
 
-    public function __construct($achivement_id, $user_id)
+    public function __construct($user_id, $achievement_id)
     {
-        $this->achievement_id = $achivement_id;
+        $this->achievement_id = $achievement_id;
         $this->user_id = $user_id;
     }
 

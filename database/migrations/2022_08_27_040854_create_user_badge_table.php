@@ -13,7 +13,7 @@ class CreateUserBadgeTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_badge', function (Blueprint $table) {
+        Schema::create('badge_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('badge_id')->constrained();

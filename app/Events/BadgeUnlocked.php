@@ -13,16 +13,20 @@ use Illuminate\Queue\SerializesModels;
 class BadgeUnlocked
 {
     use Dispatchable, SerializesModels;
+    public $bagde_id;
+    public $user_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+
+    public function __construct($user_id, $badge_id)
     {
-        //
+        $this->badge_id = $badge_id;
+        $this->user_id = $user_id;
     }
 
-    
+
 }

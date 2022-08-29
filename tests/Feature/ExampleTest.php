@@ -18,9 +18,11 @@ class ExampleTest extends TestCase
     public function test_example()
     {
         $user = User::factory()->create();
-        
+
         $response = $this->get("/users/{$user->id}/achievements");
 
         $response->assertStatus(200);
     }
+
+   
 }

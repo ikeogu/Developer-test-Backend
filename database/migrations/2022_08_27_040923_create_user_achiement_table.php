@@ -13,7 +13,7 @@ class CreateUserAchiementTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_achiement', function (Blueprint $table) {
+        Schema::create('achievement_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('achievement_id')->constrained();
@@ -28,6 +28,6 @@ class CreateUserAchiementTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_achiement');
+        Schema::dropIfExists('achievement_user');
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\CommentWritten;
+use App\Models\User;
+use Exception;
+use Log;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -27,21 +30,32 @@ class UserWroteComment
     public function handle(CommentWritten $event)
     {
         //
-        $user = DB::table('comments')->
+        $user_comment = DB::table('comments')->
             where('user_id',$event->user_id)->
-            first();
-        if(!empty($user)){
-            DB::table('comments')->
-            insert([
-                'user_id' => $event->user_id,
-                'body'=> $event->comment
-            ]);
+            exists();
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'First Comment Written'
+        try {
+            //code...
+            $comment = $event->comment;
+            $user = User::find($event->user_id);
+            $user->comments()->associate($comment);
+            $user->save();
+
+        } catch (Exception $e) {
+            //throw $th;
+            dump('Error: fuelsales_summary_details write failed!');
+            \Log::error([
+                "Mesg"   => $e->getMessage(),
+                "File"  => $e->getFile(),
+                "Line"  => $e->getLine()
             ]);
         }
+
+        return response()->json([
+            'status' => 200,
+            'message' => empty($user_comment) ? 'First Comment Written': 'Comment Written'
+        ]);
+
 
     }
 }

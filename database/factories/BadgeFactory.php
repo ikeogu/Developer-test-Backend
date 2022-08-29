@@ -16,7 +16,7 @@ class BadgeFactory extends Factory
     {
         return [
             //
-            'title'=> 'badge-'. \Str::random(4)
+            'title'=>  'Lesson Watched Achievement'
         ];
     }
 }
