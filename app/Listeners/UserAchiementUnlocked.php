@@ -7,6 +7,7 @@ use App\Events\BadgeUnlocked;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
+use Illuminate\Support\Facades\DB;
 class UserAchiementUnlocked
 {
     /**

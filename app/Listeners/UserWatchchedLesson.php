@@ -6,6 +6,7 @@ use App\Events\AchievementUnlocked;
 use App\Events\LessonWatched;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class UserWatchchedLesson
 {

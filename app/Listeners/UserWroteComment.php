@@ -5,9 +5,10 @@ namespace App\Listeners;
 use App\Events\CommentWritten;
 use App\Models\User;
 use Exception;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class UserWroteComment
 {
@@ -44,7 +45,7 @@ class UserWroteComment
         } catch (Exception $e) {
             //throw $th;
             dump('Error: fuelsales_summary_details write failed!');
-            \Log::error([
+            Log::error([
                 "Mesg"   => $e->getMessage(),
                 "File"  => $e->getFile(),
                 "Line"  => $e->getLine()

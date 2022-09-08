@@ -7,6 +7,7 @@ use App\Models\Badge;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 
 class UserBadgeUnlocked
 {
