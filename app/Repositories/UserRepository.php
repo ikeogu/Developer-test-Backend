@@ -70,10 +70,11 @@ class UserRepository
      */
     public function update($data, $id)
     {
+
         $user = $this->user->find($id);
 
-        $user->title = $data['title'];
-        $user->description = $data['description'];
+        $user->name = $data['name'];
+        $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
         $user->update();
 
@@ -89,6 +90,7 @@ class UserRepository
     public function delete($id)
     {
         $user = $this->user->find($id);
+
         $user->delete();
 
         return $user;

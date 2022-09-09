@@ -15,7 +15,8 @@ class AchievementFactory extends Factory
     {
         return [
             //
-            'name' => 'Achivement_'. \Str::random(4)
+            'title' => 'Achivement_'. \Str::random(4),
+            'description'=> $this->faker->text()
         ];
     }
 }

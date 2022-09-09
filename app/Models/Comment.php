@@ -10,6 +10,8 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +19,8 @@ class Comment extends Model
      */
     protected $fillable = [
         'body',
-        'user_id'
+        'user_id',
+        'lesson_id'
     ];
 
     /**

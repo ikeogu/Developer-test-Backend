@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUserAchiementTable extends Migration
 {
+    
     /**
      * Run the migrations.
      *
@@ -15,8 +16,13 @@ class CreateUserAchiementTable extends Migration
     {
         Schema::create('achievement_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('achievement_id')->constrained();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('achievement_id');
+            $table->foreign('achievement_id')->references('id')->on('achievements');
+
             $table->timestamps();
         });
     }

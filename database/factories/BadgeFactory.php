@@ -16,7 +16,8 @@ class BadgeFactory extends Factory
     {
         return [
             //
-            'title'=>  'Lesson Watched Achievement'
+            'title'=>  'Lesson Watched Achievement',
+            'description'=> $this->faker->sentence()
         ];
     }
 }

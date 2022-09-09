@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\AchievementUnlocked;
 use App\Events\BadgeUnlocked;
+use App\Models\Achievement;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -28,19 +30,18 @@ class UserAchiementUnlocked
      */
     public function handle(AchievementUnlocked $event)
     {
-        //
-        $user_archive = DB::table('user_achiement')->
-            where('user_id',$event->user_id)->
-            where('achievement_id',$event->achievement_id)->
-            exists();
 
-        if(!$user_archive){
-            DB::table('user_achiement')->
-            insert([
-                'user_id' => $event->user_id,
-                'achievement_id' => $event->achievement_id
-            ]);
+        $a= Achievement::where('id','>=',$event->achievement_id)->first();
 
+        $user = User::find($event->user_id);
+       
+        $db = DB::table('achievement_user')->
+            where('user_id', $user->id)->
+               where('achievement_id', $a->id)->exists();
+
+        if(!$db){
+            $user->achievements()->save($a);
+            $user->save();
             event(new BadgeUnlocked($event->user_id,$event->achievement_id));
         }
 

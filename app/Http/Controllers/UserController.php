@@ -94,7 +94,7 @@ class UserController extends Controller
     public function show($id)
     {
         $result = ['status' => 200];
-
+        
         try {
             $result['data'] = $this->userService->getById($id);
         } catch (Exception $e) {

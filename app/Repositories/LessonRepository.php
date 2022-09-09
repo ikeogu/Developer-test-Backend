@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Lesson;
+use Illuminate\Support\Facades\DB;
 
 class LessonRepository
 {
@@ -89,5 +90,14 @@ class LessonRepository
         $lesson->delete();
 
         return $lesson;
+    }
+
+    public function watch_a_lesson($data){
+
+        DB::table('lesson_user')->
+            insert([
+                'user_id' => $data['user_id'],
+                'lesson_id' => $data['lesson_id']
+            ]);
     }
 }

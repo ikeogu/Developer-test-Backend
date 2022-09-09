@@ -52,6 +52,7 @@ class BadgeRepository
 
     public function save($data)
     {
+    
         $badge = new $this->badge;
         $badge->title = $data['title'];
         $badge->description = $data['description'];

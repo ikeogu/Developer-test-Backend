@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
 
         $achievements = Achievement::factory()->
             count(12)->
-            sequence(fn ($sequence) => ['name' => $sequence->index.' Lesson Watched Achievement ' ])->
+            sequence(fn ($sequence) => ['title' => $sequence->index.' Lesson Watched Achievement ' ])->
             create();
 
     }

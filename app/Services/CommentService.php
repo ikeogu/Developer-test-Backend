@@ -2,29 +2,29 @@
 
 namespace App\Services;
 
-use App\Models\Lesson;
-use App\Repositories\LessonRepository;
+use App\Models\Comment;
+use App\Repositories\CommentRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
-class LessonService
+class CommentService
 {
     /**
-     * @var $lessonRepository
+     * @var $CommentRepository
      */
-    protected $lessonRepository;
+    protected $CommentRepository;
 
     /**
      * PostService constructor.
      *
-     * @param LessonRepository $lessonRepository
+     * @param CommentRepository $CommentRepository
      */
-    public function __construct(LessonRepository $lessonRepository)
+    public function __construct(CommentRepository $CommentRepository)
     {
-        $this->lessonRepository = $lessonRepository;
+        $this->CommentRepository = $CommentRepository;
     }
 
     /**
@@ -38,7 +38,7 @@ class LessonService
         DB::beginTransaction();
 
         try {
-            $post = $this->lessonRepository->delete($id);
+            $post = $this->CommentRepository->delete($id);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -58,7 +58,7 @@ class LessonService
      */
     public function getAll()
     {
-        return $this->lessonRepository->getAll();
+        return $this->CommentRepository->getAll();
     }
 
     /**
@@ -69,7 +69,7 @@ class LessonService
      */
     public function getById($id)
     {
-        return $this->lessonRepository->getById($id);
+        return $this->CommentRepository->getById($id);
     }
 
     /**
@@ -82,8 +82,7 @@ class LessonService
     public function updatePost($data, $id)
     {
         $validator = Validator::make($data, [
-            'title' => 'bail|min:2',
-            'description' => 'bail|max:255'
+            'body' => 'string',
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +92,7 @@ class LessonService
         DB::beginTransaction();
 
         try {
-            $post = $this->lessonRepository->update($data, $id);
+            $post = $this->CommentRepository->update($data, $id);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -115,30 +114,18 @@ class LessonService
      */
     public function savePostData($data)
     {
+
         $validator = Validator::make($data, [
-            'title' => 'required',
-            'description' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
-        $result = $this->lessonRepository->save($data);
-
-        return $result;
-    }
-
-    public function saveWatchedLesson($data){
-        $validator = Validator::make($data, [
+            'body' => 'required',
             'user_id' => 'required',
-            'lesson_id' => 'required'
+            'lesson_id'=> 'required'
         ]);
+
         if ($validator->fails()) {
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = $this->lessonRepository->watch_a_lesson($data);
+        $result = $this->CommentRepository->save($data);
 
         return $result;
     }

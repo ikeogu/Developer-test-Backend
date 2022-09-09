@@ -30,25 +30,19 @@ class UserWatchchedLesson
     {
         //
         $user_les = DB::table('lesson_user')->
-            where('user_id',$event->user_id)->get();
+            where('user_id',$event->user->id)->get();
 
-        DB::table('lesson_user')->
-        insert([
-            'user_id' => $event->user_id,
-            'lesson_id' => $event->lesson_id
-        ]);
-
-        if(!$user_les){
-            event(new AchievementUnlocked($event->user_id,2));
-        }
-        if($user_les->count() > 5){
-            event(new AchievementUnlocked($event->user_id,6));
+        if (!empty($user_les)) {
+            event(new AchievementUnlocked($event->user->id, 2));
+        } elseif ($user_les->count() > 5) {
+            event(new AchievementUnlocked($event->user->id, 6));
+        } else {
+            event(new AchievementUnlocked($event->user->id, count($user_les) + 1));
         }
         return response()->json([
             'status' => 200,
             'message' => empty($user_les) ? 'First Lesson Watched' : 'Lesson Watched'
         ]);
-
 
     }
 }

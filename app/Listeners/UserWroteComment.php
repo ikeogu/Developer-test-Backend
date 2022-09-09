@@ -32,29 +32,12 @@ class UserWroteComment
     {
         //
         $user_comment = DB::table('comments')->
-            where('user_id',$event->user_id)->
-            exists();
-
-        try {
-            //code...
-            $comment = $event->comment;
-            $user = User::find($event->user_id);
-            $user->comments()->associate($comment);
-            $user->save();
-
-        } catch (Exception $e) {
-            //throw $th;
-            dump('Error: fuelsales_summary_details write failed!');
-            Log::error([
-                "Mesg"   => $e->getMessage(),
-                "File"  => $e->getFile(),
-                "Line"  => $e->getLine()
-            ]);
-        }
+            where('user_id',$event->user_id->id)->
+            get();
 
         return response()->json([
             'status' => 200,
-            'message' => empty($user_comment) ? 'First Comment Written': 'Comment Written'
+            'message' => ($user_comment->count() == 1) ? 'First Comment Written': 'Comment Written'
         ]);
 
 

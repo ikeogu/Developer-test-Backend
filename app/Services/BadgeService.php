@@ -115,6 +115,7 @@ class BadgeService
      */
     public function savePostData($data)
     {
+       
         $validator = Validator::make($data, [
             'title' => 'required',
             'description' => 'required'

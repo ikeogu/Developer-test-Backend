@@ -30,15 +30,15 @@ class UserBadgeUnlocked
     public function handle(BadgeUnlocked $event)
     {
         //
-        $badge = Badge::find($event->badge_id);
+        $badge = Badge::where('id','>=',$event->badge_id)->first();
         $user = User::find($event->user_id);
 
-        $db = DB::table('user_badge')->
-        where('user_id', $user->user_id)->
-        where('badge_id', $badge->badge_id)->exists();
+        $db = DB::table('badge_user')->
+        where('user_id', $user->id)->
+        where('badge_id', $badge->id)->exists();
 
         if(!$db){
-            $user->badge()->associate($badge);
+            $user->badges()->save($badge);
             $user->save();
         }
         return response()->json([
